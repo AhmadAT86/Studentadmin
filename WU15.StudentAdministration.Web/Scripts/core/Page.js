@@ -49,12 +49,22 @@ var Page = new function Page() {
         });
     }
 
-    // Fetch the data and render the page.
-    Page.displayStudentList = function () {               
+    // Fetch the data and delegate the rendering of the page.
+    Page.displayStudentList = function () {
 
-        var data = {}
-        Page.renderStudentList(data);
+        $.ajax({
+            type: "GET",
+            url: configuration.studentsUrl,
+            data: { sid: configuration.organizationId }
+        }).done(function (data) {
+            console.log("[Page.displayStudentsList]: Number of items returned: " + data.length);
 
+            // Render the courses.
+            Page.renderStudentList(data);
+
+        }).error(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText || textStatus);
+        });
     }
 
     Page.renderDefault = function (courses) {
@@ -127,14 +137,26 @@ var Page = new function Page() {
         configuration.courseListPlaceholder.fadeIn(500);
     }
 
-    Page.renderStudentList = function () {
-        configuration.studentListPlaceholder.empty();
+    //visa studentlist
 
-        var view = "Student list...";
-        configuration.studentListPlaceholder.append(view);
+    Page.renderStudentList = function (student) {
+        var tbody = $("#studentListTable tbody");
+        tbody.empty();
+
+        var html = "";
+        for (var index = 0; index < student.length; index++) {
+            html += "<tr>";
+            html += "<td>" + student[index].firstName + "</td>";
+            html += "<td>" + student[index].lastName + "</td>";
+            html += "<td>" + student[index].Ssn + "</td>";
+            //html += "<td>" + cheak + "</td>";           
+            html += "</tr>";
+        }
+        tbody.append(html);
 
         configuration.studentListPlaceholder.fadeIn(500);
     }
+
 
     Page.displayCourseDetails = function (id) {
         console.log("[Page.displayCourseDetails]: Fetching item having id: " + id);
@@ -236,8 +258,7 @@ var Page = new function Page() {
     }
 
     // Saves a course and displays the default view.
-    Page.saveCourseAndDisplayDefault = function (course) {
-
+    Page.saveCourseAndDisplayDefault = function (course) {      
         $.ajax({
             url: configuration.coursesUrl,
             type: "POST",
@@ -260,7 +281,6 @@ var Page = new function Page() {
 
     // Saves a course and does'nt do a view update.
     Page.saveCourseDetails = function (course) {
-
         $.ajax({
             url: configuration.coursesUrl,
             type: "POST",
@@ -353,7 +373,7 @@ var Page = new function Page() {
                 configuration.defaultPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
 
-                Page.displayCourseList();
+                Page.displayCourseList()
 
                 break;
             case "students":

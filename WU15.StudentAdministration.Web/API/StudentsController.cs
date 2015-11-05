@@ -29,7 +29,7 @@ namespace WU15.StudentAdministration.Web.API
             }
             MvcApplication.Students.Add(student);
 
-            return string.Format("{0} {1}", student.FirstName, student.LastName);       
+            return string.Format("{0} {1} {2} {3}", student.FirstName, student.LastName, student.SocialSecurityNumber, student.Active);       
         }
 
         [HttpDelete]
