@@ -119,4 +119,12 @@
 
             });
 
+            // KOMMENTAR!!!!!
+            $("#studentListAddStudentForm").submit(function (event) {
+                event.preventDefault();
+                console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+
+               
+            });
+
         });
