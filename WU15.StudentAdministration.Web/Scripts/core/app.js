@@ -14,7 +14,9 @@
                 courseDetailsStudentListPlaceholder: $("#courseDetailsStudentListPlaceholder"),
                 courseDetailsStudentSelectList: $("#courseDetailsStudentSelectList"),
                 courseListPlaceholder: $("#courseListPlaceholder"),
-                studentListPlaceholder: $("#studentListPlaceholder")
+                studentListPlaceholder: $("#studentListPlaceholder"),
+                studentDetailsPlaceholder: $("#studentDetailsPlaceholder"),
+
             });
 
             // Do some page bootstrapping.

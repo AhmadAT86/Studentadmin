@@ -99,7 +99,7 @@ var Page = new function Page() {
                 // Students
                 if (courses[courseIndex].students.length > 0) {
                     for (var subIndex = 0; subIndex < courses[courseIndex].students.length; subIndex++) {
-                        item += "<a href='#' class='list-group-item'>" + courses[courseIndex].students[subIndex].firstName + " " + courses[courseIndex].students[subIndex].lastName + "</a>";
+                        item += "<a href='#' class='list-group-item'>" + courses[courseIndex].students[subIndex].firstName + " " + courses[courseIndex].students[subIndex].lastName + " " + courses[courseIndex].students[subIndex].socialSecurityNumber + "</a>";
                     }
                 } else {
                     item += "<span class='list-group-item'>Kursen har inga studenter registrerade.</span>";
@@ -148,7 +148,7 @@ var Page = new function Page() {
             html += "<tr>";
             html += "<td>" + student[index].firstName + "</td>";
             html += "<td>" + student[index].lastName + "</td>";
-            html += "<td>" + student[index].SocialSecurityNumber + "</td>";
+            html += "<td>" + student[index].socialSecurityNumber + "</td>";
             //html += "<td>" + cheak + "</td>";           
             html += "</tr>";
         }
@@ -199,6 +199,13 @@ var Page = new function Page() {
         // Display the details panel.
         configuration.courseDetailsPlaceholder.fadeIn(500);
     }
+    Page.renderStudentDetails = function (Student) {
+        // Hide the default view.
+        configuration.defaultPlaceholder.hide();
+
+        // Display the details panel.
+        configuration.studentDetailsPlaceholder.fadeIn(500);
+    }
 
     Page.renderCourseDetailsStudentList = function (course) {
         configuration.courseDetailsStudentListPlaceholder.empty();
@@ -211,10 +218,14 @@ var Page = new function Page() {
                     + course.students[index].firstName
                     + "' data-last-name='"
                     + course.students[index].lastName
+                    + "' data-socialsecuritynumber='"
+                    + course.students[index].socialSecurityNumber
                     + "'>"
                     + course.students[index].firstName
                     + " "
                     + course.students[index].lastName
+                    + " "
+                    + course.students[index].socialSecurityNumber
 
                     // Render the trash can, the remove student button.
                     + "<span class='pull-right'><button class='remove-registered-student btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></button></span>"
@@ -248,13 +259,14 @@ var Page = new function Page() {
     }
 
     Page.appendStudentSelectOption = function (student) {
-        var name = student.firstName + " " + student.lastName;
+        var name = student.firstName + " " + student.lastName + " " + student.socialSecurityNumber;
         configuration.courseDetailsStudentSelectList.append(
             $("<option />")
             .text(name)
             .attr("data-id", student.id)
             .attr("data-first-name", student.firstName)
-            .attr("data-last-name", student.lastName));
+            .attr("data-last-name", student.lastName)
+            .attr("data-securitynumber", student.socialSecurityNumber));
     }
 
     // Saves a course and displays the default view.
@@ -310,10 +322,16 @@ var Page = new function Page() {
                     + student.firstName
                     + "' data-last-name='"
                     + student.lastName
+                    + "' data-socialsecuritynumber='"
+                    + student.socialSecurityNumber
                     + "'>"
                     + student.firstName
                     + " "
                     + student.lastName
+                    + " "
+                    + student.socialSecurityNumber
+
+
 
                     // Render the trash can remove student button.
                     + "<span class='pull-right'><button class='remove-registered-student btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></button></span>"
@@ -321,17 +339,28 @@ var Page = new function Page() {
                     + "</div>");
     }
 
-    Page.getCourseTemplate = function () {
+        Page.getCourseTemplate = function () {
         var course = {
             id: 0,
             name: "",
             credits: 0,
-            schoolNo: configuration.organizationId,
             students: []
         }
 
         return course;
-    }
+        }
+
+        Page.getStudentTemplate = function () {
+            var student = {
+                id: 0,
+                firstName: "",
+                lastName: "",
+                socialSecurityNumber: "",
+               
+            }
+
+            return student;
+        }
 
     Page.registerSelectedStudent = function () {
         var selectedStudentOption
@@ -341,7 +370,8 @@ var Page = new function Page() {
         var id = selectedStudentOption.data("id");
         var firstName = selectedStudentOption.data("firstName");
         var lastName = selectedStudentOption.data("lastName");
-        var student = { id: id, firstName: firstName, lastName: lastName }
+        var socialSecurityNumber = selectedStudentOption.data("socialsecuritynumber");
+        var student = { id: id, firstName: firstName, lastName: lastName, socialSecurityNumber: socialSecurityNumber}
         selectedStudentOption.remove();
 
         // Remove the empty list default text.
@@ -357,13 +387,13 @@ var Page = new function Page() {
 
         console.log("Registring student having id " + id + ".");
     }
-
     Page.navigate = function (panel) {
         switch (panel) {
             case "start":
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
 
                 Page.displayDefault();
 
@@ -372,15 +402,15 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.studentListPlaceholder.hide();
-
-                Page.displayCourseList()
+                configuration.studentDetailsPlaceholder.hide();
+                Page.displayCourseList();
 
                 break;
             case "students":
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
-
+                configuration.studentDetailsPlaceholder.hide();
                 Page.displayStudentList();
 
                 break;
@@ -388,13 +418,29 @@ var Page = new function Page() {
                 configuration.courseDetailsPlaceholder.hide();
                 configuration.defaultPlaceholder.hide();
                 configuration.courseListPlaceholder.hide();
-
+                configuration.studentListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
                 var course = Page.getCourseTemplate();
                 Page.renderCourseDetails(course);
 
                 break;
+
+            case "addStudent":
+                configuration.courseDetailsPlaceholder.hide();
+                configuration.defaultPlaceholder.hide();
+                configuration.courseListPlaceholder.hide();
+                configuration.studentListPlaceholder.hide();
+                configuration.studentDetailsPlaceholder.hide();
+                var student = Page.getStudentTemplate();
+                Page.renderStudentDetails(student);
+
+
+
+                break;
+
             default:
                 configuration.courseDetailsPlaceholder.hide();
+
                 Page.displayDefault();
         }
     }
