@@ -148,7 +148,7 @@ var Page = new function Page() {
             html += "<tr>";
             html += "<td>" + student[index].firstName + "</td>";
             html += "<td>" + student[index].lastName + "</td>";
-            html += "<td>" + student[index].Ssn + "</td>";
+            html += "<td>" + student[index].SocialSecurityNumber + "</td>";
             //html += "<td>" + cheak + "</td>";           
             html += "</tr>";
         }
