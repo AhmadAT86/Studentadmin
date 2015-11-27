@@ -311,7 +311,6 @@ var Page = new function Page() {
             error: function (jqXHR, textStatus, errorThrown) {
             }
         });
-
     }
 
     Page.appendStudentToList = function (student) {
