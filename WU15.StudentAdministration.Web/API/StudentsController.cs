@@ -4,17 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WU15.StudentAdministration.Web.Controllers.DataAccess;
 using WU15.StudentAdministration.Web.Models;
 
 namespace WU15.StudentAdministration.Web.API
 {
     public class StudentsController : ApiController
     {
+        //private DefaultDataContext db = new DefaultDataContext();
+
+       
         public IEnumerable<Student> Get()
         {            
             return MvcApplication.Students;
         }
 
+        
         public Student Get(int id)
         {
             return MvcApplication.Students.FirstOrDefault(x => x.Id == id);
@@ -32,7 +37,8 @@ namespace WU15.StudentAdministration.Web.API
             return string.Format("{0} {1} {2} {3}", student.FirstName, student.LastName, student.SocialSecurityNumber, student.Active);       
         }
 
-        [HttpDelete]
+       
+         [HttpDelete]
         public void Delete(int id)
         {
             var student = MvcApplication.Students.FirstOrDefault(x => x.Id == id);

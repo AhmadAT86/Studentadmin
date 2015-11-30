@@ -102,6 +102,17 @@
             });
 
             // Save the new course details from the course list view.
+            $("#studentDetailsForm").submit(function (event) {
+                event.preventDefault();
+                console.log("[courseListAddCourseForm.submit]: Submitted the new course form.");
+
+                var student= Utilities.formToJson(this);
+              
+                $(this)[0].reset();
+
+                Page.saveStudentDetails(student);
+            });
+
             $("#courseListAddCourseForm").submit(function (event) {
                 event.preventDefault();
                 console.log("[courseListAddCourseForm.submit]: Submitted the new course form.");
@@ -120,7 +131,13 @@
                 Page.displayCourseList();
 
             });
+            $(document).on("studentSavedCustomEvent", function (event) {
+                console.log("[studentSavedCustomEvent]: " + event.message.description);
+                console.log("[studentSavedCustomEvent]: " + event.message.data);
 
+                Page.displayStudentList();
+
+            });
             // KOMMENTAR!!!!!
             $("#studentListAddStudentForm").submit(function (event) {
                 event.preventDefault();
@@ -128,5 +145,8 @@
 
                
             });
+
+
+
 
         });

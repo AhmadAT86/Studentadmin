@@ -312,6 +312,27 @@ var Page = new function Page() {
             }
         });
     }
+     
+        Page.saveStudentDetails = function (student) {
+            $.ajax({
+                url: configuration.studentsUrl,
+                type: "POST",
+                data: JSON.stringify(student),
+                contentType: "application/json",
+                success: function (data, textStatus, jqXHR) {
+                    console.log("[Page.saveCourseDetails.success]: Results: " + data);
+ 
+                    // Brodcast course added event.
+                    $.event.trigger({
+                        type: "studentSavedCustomEvent",
+                        message: { description: "Saved a student.", data: student },
+                        time: new Date()
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        }
 
     Page.appendStudentToList = function (student) {
         configuration.courseDetailsStudentListPlaceholder.append(
