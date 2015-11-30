@@ -5,12 +5,15 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
+using WU15.StudentAdministration.Web.Controllers.DataAccess;
 using WU15.StudentAdministration.Web.Models;
 
 namespace WU15.StudentAdministration.Web.API
 {
     public class CoursesController : ApiController
     {
+        private DefaultDataContext db = DefaultDataContext();
+
         [HttpGet]
         public IEnumerable<Course> Get(string sid)
         {            

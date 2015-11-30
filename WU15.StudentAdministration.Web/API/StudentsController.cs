@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,28 +12,33 @@ namespace WU15.StudentAdministration.Web.API
 {
     public class StudentsController : ApiController
     {
-        //private DefaultDataContext db = new DefaultDataContext();
+        private DefaultDataContext db = new DefaultDataContext();
 
        
         public IEnumerable<Student> Get()
-        {            
-            return MvcApplication.Students;
+        {
+
+            var students = db.Students.Include("Courses").OrderBy(x => x.FirstName);
+            
+            return students;
         }
 
         
         public Student Get(int id)
         {
-            return MvcApplication.Students.FirstOrDefault(x => x.Id == id);
+            return db.Students.FirstOrDefault(x => x.Id == id);
         }
 
         public string Post(Student student)
         {
-            if (student.Id == 0)
+            if (student.Id == 0) //Save
             {
-                var id = MvcApplication.Students.Max(x => x.Id) + 1;
-                student.Id = id;
+                db.Entry(student).State = EntityState.Modified;
             }
-            MvcApplication.Students.Add(student);
+            else // Add
+            {
+                db.Students.Add(student);
+            }
 
             return string.Format("{0} {1} {2} {3}", student.FirstName, student.LastName, student.SocialSecurityNumber, student.Active);       
         }
@@ -46,3 +52,5 @@ namespace WU15.StudentAdministration.Web.API
         }
     }
 }
+// Lagt till användargränssnitt, titta genom Arnes PP sida: 71-74.
+// Forsätt att kolla genom Arnes PP sida: 76 fram till 81.
