@@ -314,6 +314,8 @@ var Page = new function Page() {
     }
      
         Page.saveStudentDetails = function (student) {
+
+
             $.ajax({
                 url: configuration.studentsUrl,
                 type: "POST",
@@ -342,14 +344,11 @@ var Page = new function Page() {
                     + student.firstName
                     + "' data-last-name='"
                     + student.lastName
-                    + "' data-socialsecuritynumber='"
-                    + student.socialSecurityNumber
                     + "'>"
                     + student.firstName
                     + " "
                     + student.lastName
-                    + " "
-                    + student.socialSecurityNumber
+
 
 
 

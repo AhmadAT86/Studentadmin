@@ -1,6 +1,18 @@
 ﻿
         $(document).ready(function () {
 
+            $(document).ajaxStart(function () {
+                console.log("Triggered ajaxStart handler.");
+
+            });
+
+            $(document).ajaxComplete(function () {
+                console.log("Triggered ajaxComplete handler.");
+            });
+
+
+
+
             // Setup initial page parameters.
             Page.setup({
                
@@ -119,6 +131,10 @@
 
                 var course = Utilities.formToJson(this);
                 course.students = [];
+
+
+
+
                 $(this)[0].reset();
 
                 Page.saveCourseDetails(course);
@@ -143,7 +159,14 @@
                 event.preventDefault();
                 console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
 
-               
+                //All data hämnar på $("#studentListAddStudentForm").submit(function (event) och de händer inget. 
+                // 1.Samla in (studentListAddStudentForm)
+               //// 2.Spara data
+               //// 3. Efter att man har lagt till spara-funktion, så lägg till hem funktion.
+               // var student = Utilities.formToJson(this);
+
+               // Page.saveStudentDetails(student);
+
             });
 
         });

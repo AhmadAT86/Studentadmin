@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Mail;
 using System.Web.Http;
 using WU15.StudentAdministration.Web.Models;
-using System.Security.Cryptography.X509Certificates;
 using WU15.StudentAdministration.Web.DataAccess;
 using System.Data.Entity;
 
@@ -14,13 +9,12 @@ namespace WU15.StudentAdministration.Web.API
 {
     public class StudentsController : ApiController
     {
-
         private DefaultDataContext db = new DefaultDataContext();
-        
+
         public IEnumerable<Student> Get()
         {
-            var students = db.Students.Include(x => x.Courses).OrderBy(x => x.FirstName);
-            
+            var students = db.Students.OrderBy(x => x.Active).ThenByDescending(xy => xy.FirstName);
+
             return students;
         }
 
@@ -33,29 +27,18 @@ namespace WU15.StudentAdministration.Web.API
         {
             if (student.Id > 0)
             {
-                
-
-                    db.Entry(student).State = EntityState.Modified;
-
-            } 
-                else
-                {
-                    db.Students.Add(student);
-                }
-
+                db.Entry(student).State = EntityState.Modified;
+            }
+            else
+            {
+                db.Students.Add(student);
+            }
 
             db.SaveChanges();
-            return string.Format("{0} {1} {2} {3}", student.FirstName, student.LastName);
-        
-        }
 
-            
-           
-    
-    
+            return string.Format("{0} {1}", student.FirstName, student.LastName);
+        }
     }
-           
-    
 }
 //Lagt till användargränssnitt, titta genom Arnes PP sida: 71-74.
 // Forsätt att kolla genom Arnes PP sida: 76 fram till 81.
