@@ -7,7 +7,7 @@ using WU15.StudentAdministration.Web.Models;
 
 namespace WU15.StudentAdministration.Web.DataAccess
 {
-    public class DefaultDataContext : DbContext 
+    public class DefaultDataContext : DbContext
     {
         public DbSet<Student> Students { get; set; }
 
@@ -18,5 +18,4 @@ namespace WU15.StudentAdministration.Web.DataAccess
             base.OnModelCreating(modelBuilder);
         }
     }
-
 }

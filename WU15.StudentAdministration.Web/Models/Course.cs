@@ -10,7 +10,7 @@ using System.Data.Entity;
 
 namespace WU15.StudentAdministration.Web.Models
 {
-    public class Course    
+    public class Course
     {
         //[JsonProperty("courseId")]
         public int Id { get; set; }
@@ -21,7 +21,7 @@ namespace WU15.StudentAdministration.Web.Models
         public string Term { get; set; }
 
         public string Year { get; set; }
-        
+
         public string Credits { get; set; }
 
         public List<Student> Students { get; set; }

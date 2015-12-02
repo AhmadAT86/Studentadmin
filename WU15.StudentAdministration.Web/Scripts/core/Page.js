@@ -70,7 +70,7 @@ var Page = new function Page() {
     Page.renderDefault = function (courses) {
         var view = "";
         configuration.defaultPlaceholder.empty();
-                
+
         var courseIndex = 0;
         for (var contentIndex = 0; contentIndex < courses.length; contentIndex = contentIndex + configuration.numberOfColumnsPerRow) {
             var item = "<div class='row list-item'>";
@@ -138,7 +138,6 @@ var Page = new function Page() {
     }
 
     //visa studentlist
-
     Page.renderStudentList = function (student) {
         var tbody = $("#studentListTable tbody");
         tbody.empty();
@@ -156,7 +155,6 @@ var Page = new function Page() {
 
         configuration.studentListPlaceholder.fadeIn(500);
     }
-
 
     Page.displayCourseDetails = function (id) {
         console.log("[Page.displayCourseDetails]: Fetching item having id: " + id);
@@ -199,6 +197,7 @@ var Page = new function Page() {
         // Display the details panel.
         configuration.courseDetailsPlaceholder.fadeIn(500);
     }
+
     Page.renderStudentDetails = function (Student) {
         // Hide the default view.
         configuration.defaultPlaceholder.hide();
@@ -270,7 +269,7 @@ var Page = new function Page() {
     }
 
     // Saves a course and displays the default view.
-    Page.saveCourseAndDisplayDefault = function (course) {      
+    Page.saveCourseAndDisplayDefault = function (course) {
         $.ajax({
             url: configuration.coursesUrl,
             type: "POST",
@@ -312,29 +311,29 @@ var Page = new function Page() {
             }
         });
     }
-     
-        Page.saveStudentDetails = function (student) {
+
+    Page.saveStudentDetails = function (student) {
 
 
-            $.ajax({
-                url: configuration.studentsUrl,
-                type: "POST",
-                data: JSON.stringify(student),
-                contentType: "application/json",
-                success: function (data, textStatus, jqXHR) {
-                    console.log("[Page.saveCourseDetails.success]: Results: " + data);
- 
-                    // Brodcast course added event.
-                    $.event.trigger({
-                        type: "studentSavedCustomEvent",
-                        message: { description: "Saved a student.", data: student },
-                        time: new Date()
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                }
-            });
-        }
+        $.ajax({
+            url: configuration.studentsUrl,
+            type: "POST",
+            data: JSON.stringify(student),
+            contentType: "application/json",
+            success: function (data, textStatus, jqXHR) {
+                console.log("[Page.saveCourseDetails.success]: Results: " + data);
+
+                // Brodcast course added event.
+                $.event.trigger({
+                    type: "studentSavedCustomEvent",
+                    message: { description: "Saved a student.", data: student },
+                    time: new Date()
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+    }
 
     Page.appendStudentToList = function (student) {
         configuration.courseDetailsStudentListPlaceholder.append(
@@ -358,7 +357,7 @@ var Page = new function Page() {
                     + "</div>");
     }
 
-        Page.getCourseTemplate = function () {
+    Page.getCourseTemplate = function () {
         var course = {
             id: 0,
             name: "",
@@ -367,19 +366,19 @@ var Page = new function Page() {
         }
 
         return course;
+    }
+
+    Page.getStudentTemplate = function () {
+        var student = {
+            id: 0,
+            firstName: "",
+            lastName: "",
+            socialSecurityNumber: "",
+
         }
 
-        Page.getStudentTemplate = function () {
-            var student = {
-                id: 0,
-                firstName: "",
-                lastName: "",
-                socialSecurityNumber: "",
-               
-            }
-
-            return student;
-        }
+        return student;
+    }
 
     Page.registerSelectedStudent = function () {
         var selectedStudentOption
@@ -390,7 +389,7 @@ var Page = new function Page() {
         var firstName = selectedStudentOption.data("firstName");
         var lastName = selectedStudentOption.data("lastName");
         var socialSecurityNumber = selectedStudentOption.data("socialsecuritynumber");
-        var student = { id: id, firstName: firstName, lastName: lastName, socialSecurityNumber: socialSecurityNumber}
+        var student = { id: id, firstName: firstName, lastName: lastName, socialSecurityNumber: socialSecurityNumber }
         selectedStudentOption.remove();
 
         // Remove the empty list default text.
@@ -406,6 +405,7 @@ var Page = new function Page() {
 
         console.log("Registring student having id " + id + ".");
     }
+
     Page.navigate = function (panel) {
         switch (panel) {
             case "start":
