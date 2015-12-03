@@ -152,6 +152,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap2.css" />
+    <Content Include="Content\default.gif" />
+    <Content Include="Content\Kompassen.jpg" />
+    <Content Include="Content\Kompassenbild.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

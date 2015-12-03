@@ -3,13 +3,18 @@ $(document).ready(function () {
 
     $(document).ajaxStart(function () {
         console.log("Triggered ajaxStart handler.");
-
+        $("#imageloading").show();
     });
+        
+    //$("#navigation.active").addClass(function(){}
+    // skapa en if-sats där allarörelser försvinner för gott, jävla fan helvete.
 
-    $(document).ajaxComplete(function () {
+
+
+    $(document).ajaxStop(function () {
         console.log("Triggered ajaxComplete handler.");
+        $("#imageloading").hide();
     });
-
 
 
 
