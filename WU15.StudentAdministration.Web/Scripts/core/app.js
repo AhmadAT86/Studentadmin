@@ -162,9 +162,29 @@ $(document).ready(function () {
     });
 
     // KOMMENTAR!!!!!
-    $("#studentListAddStudentForm").submit(function (event) {
-        event.preventDefault();
-        console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+    //$("#studentListAddStudentForm").submit(function (event) {
+    //    event.preventDefault();
+    //    console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+
+        $("#studentListAddStudentForm").submit(function (event) {
+            event.preventDefault();
+            console.log("[studentListAddStudentForm.submit]: Submitted the new student form.");
+
+            var course = Utilities.formToJson(this);
+            course.students = [];
+
+            var student = null;
+            $(".registered-student").each(function () {
+                student = {
+                    id: $(this).data("id"),
+                    firstName: $(this).data("firstName"),
+                    lastName: $(this).data("lastName")
+                }
+                course.students.push(student);
+            });
+
+            Page.saveStudentAndDisplayDefault(student);
+        });
 
         //All data hämnar på $("#studentListAddStudentForm").submit(function (event) och de händer inget. 
         // 1.Samla in (studentListAddStudentForm)
@@ -176,4 +196,3 @@ $(document).ready(function () {
 
     });
 
-});

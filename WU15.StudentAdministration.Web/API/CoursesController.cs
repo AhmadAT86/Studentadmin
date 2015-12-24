@@ -14,7 +14,7 @@ namespace WU15.StudentAdministration.Web.API
         [HttpGet]
         public IEnumerable<Course> Get()
         {
-            return db.Courses.Include("Students").OrderByDescending(x => x.Active).ThenBy(x => x.Name);
+            return db.Courses.Include("Course").OrderByDescending(x => x.Active).ThenBy(x => x.Name);
         }
 
         public Course Get(int id)
