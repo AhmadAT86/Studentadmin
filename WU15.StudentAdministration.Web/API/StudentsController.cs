@@ -40,5 +40,5 @@ namespace WU15.StudentAdministration.Web.API
         }
     }
 }
-//Lagt till användargränssnitt, titta genom Arnes PP sida: 71-74.
+//Lagt till användargränssnitt (MAIN), titta genom Arnes PP sida: 71-74.
 // Forsätt att kolla genom Arnes PP sida: 76 fram till 81.
